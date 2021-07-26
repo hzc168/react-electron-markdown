@@ -1,0 +1,7 @@
+electron-is-dev
+concurrently: 多条命令连接起来执行
+wait-on：等待某个结果执行之后再去执行后续命令
+cross-env：跨平台的环境变量设置
+
+bootstrap: UI组件库
+styled-components：自定义样式
