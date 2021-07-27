@@ -4,14 +4,36 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import SearchFile from './components/SearchFile'
 import initFiles from './utils/initFiles'
 import FileList from './components/FileList'
+import ButtonItem from './components/ButtomItem'
+import { faPlus, faFileImport } from '@fortawesome/free-solid-svg-icons'
 
 // 自定义左侧容器
 let LeftDiv = styled.div.attrs({
     className: 'col-3 left-panel'
 })`
+    position: relative;
     background-color: #7b8c7c;
     min-height: 100vh;
     box-sizing: border-box;
+    .btn_list {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        p {
+            border: 0;
+            width: 50%;
+            color: #fff;
+            border-radius: 0;
+            margin-bottom: 0 !important;
+        }
+        p:nth-of-type(1){
+            background-color: #8ba39e;
+        }
+        p:nth-of-type(2){
+            background-color: #98b43a;
+        }
+    }
 `
 
 // 自定义右侧容器
@@ -34,8 +56,14 @@ function App() {
                     <FileList files={initFiles}
                         editFile={(id) => console.log(id)}
                         deleteFile={(id) => console.log("删除：", id)}
-                        saveFile={(id, value) => console.log(id, value) }
+                        saveFile={(id, value) => console.log(id, value)}
                     ></FileList>
+
+                    <div className="btn_list">
+                        <ButtonItem title={'新建'} icon={faPlus} />
+                        <ButtonItem title={'导入'} icon={faFileImport} />
+                    </div>
+
                 </LeftDiv>
                 <RightDiv>右侧</RightDiv>
             </div>
