@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import SearchFile from './components/SearchFile'
 
 // 自定义左侧容器
 let LeftDiv = styled.div.attrs({
@@ -23,7 +24,12 @@ function App() {
     return (
         <div className="App container-fluid px-0">
             <div className="row no-gutters">
-                <LeftDiv>左侧</LeftDiv>
+                <LeftDiv>
+                    <SearchFile
+                        title="我的文档"
+                        onSearch={(value) => {console.log(value)}}
+                    ></SearchFile>
+                </LeftDiv>
                 <RightDiv>右侧</RightDiv>
             </div>
         </div>
