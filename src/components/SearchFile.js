@@ -1,5 +1,8 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes, faSearch } from '@fortawesome/free-solid-svg-icons'
+import {PropTypes} from 'prop-types'
 
 // 自定义搜索区域的 div
 let SearchDiv = styled.div.attrs({
@@ -59,7 +62,9 @@ const SearchFile = ({ title, onSearch }) => {
                 <>
                     <SearchDiv>
                         <span>{title}</span>
-                        <span onClick={() => { setSearchActive(true) }}>搜索</span>
+                        <span onClick={() => { setSearchActive(true) }}>
+                            <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
+                        </span>
                     </SearchDiv>
                 </>
             }
@@ -72,12 +77,23 @@ const SearchFile = ({ title, onSearch }) => {
                             value={value}
                             onChange={(e) => { setValue(e.target.value) }}
                         />
-                        <span onClick={closeSearch}>关闭</span>
+                        <span onClick={closeSearch}>
+                            <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                        </span>
                     </SearchDiv>
                 </>
             }
         </Fragment>
     )
+}
+
+SearchFile.propTypes = {
+    title: PropTypes.string,
+    onSearch: PropTypes.func.isRequired
+}
+
+SearchFile.defaultProps = {
+    title: '文档列表'
 }
 
 export default SearchFile
