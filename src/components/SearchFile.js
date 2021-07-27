@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes, faSearch } from '@fortawesome/free-solid-svg-icons'
 import {PropTypes} from 'prop-types'
+import useKeyHandler from '../hooks/useKeyHandler'
 
 // 自定义搜索区域的 div
 let SearchDiv = styled.div.attrs({
@@ -24,6 +25,8 @@ let SearchDiv = styled.div.attrs({
 const SearchFile = ({ title, onSearch }) => {
     const [searchActive, setSearchActive] = useState(false)
     const [value, setValue] = useState('')
+    const enterPressed = useKeyHandler(13)
+    const escPressed = useKeyHandler(27)
 
     const oInput = useRef(null)
 
@@ -32,7 +35,15 @@ const SearchFile = ({ title, onSearch }) => {
         setValue('')
     }
 
-    useEffect(() => {
+    if(enterPressed && searchActive) {
+        onSearch(value)
+    }
+
+    if(escPressed && searchActive) {
+        closeSearch()
+    }
+
+    /*useEffect(() => {
         const searchHandle = (ev) => {
             const { keyCode } = ev
             if (keyCode === 13 && searchActive) {
@@ -47,7 +58,7 @@ const SearchFile = ({ title, onSearch }) => {
         return () => {
             document.removeEventListener('keyup', searchHandle)
         }
-    })
+    })*/
 
     useEffect(() => {
         if (searchActive) {

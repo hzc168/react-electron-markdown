@@ -1,8 +1,9 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState } from 'react'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileAlt, faEdit, faTrashAlt, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { PropTypes } from 'prop-types'
+import useKeyHandler from '../hooks/useKeyHandler'
 
 // ul 标签
 let GroupUl = styled.ul.attrs({
@@ -18,6 +19,8 @@ const FileList = ({ files, editFile, saveFile, deleteFile }) => {
 
     const [editItem, setEditItem] = useState(false)
     const [value, setValue] = useState('')
+    const enterPressed = useKeyHandler(13)
+    const escPressed = useKeyHandler(27)
 
     // 定义关闭行为
     const closeFn = () => {
@@ -25,8 +28,17 @@ const FileList = ({ files, editFile, saveFile, deleteFile }) => {
         setValue('')
     }
 
+    if (enterPressed && editItem) {
+        saveFile(editItem, value)
+        closeFn()
+    }
+
+    if (escPressed && editItem) {
+        closeFn()
+    }
+
     // 键盘事件操作
-    useEffect(() => {
+    /*useEffect(() => {
         const keyboardHandle = (ev) => {
             let { keyCode } = ev
             if (keyCode === 13 && editItem) {
@@ -41,7 +53,7 @@ const FileList = ({ files, editFile, saveFile, deleteFile }) => {
         return () => {
             document.removeEventListener('keyup', keyboardHandle)
         }
-    })
+    })*/
 
     return (
         <GroupUl>
