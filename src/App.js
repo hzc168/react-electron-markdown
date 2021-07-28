@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import SearchFile from './components/SearchFile'
@@ -45,9 +45,28 @@ let RightDiv = styled.div.attrs({
 })`
     background-color: #c9d8cd;
     box-sizing: border-box;
+    .init-page {
+        color: #888;
+        text-align: center;
+        font: normal 28px/300px '微软雅黑'
+    }
 `
 
 function App() {
+
+    const [files, setFiles] = useState(initFiles)   // 代表所有的文件信息
+    const [activeId, setActiveId] = useState('')    // 当前正在编辑的文件id
+    const [openIds, setOpenIds] = useState([])      // 当前已打开的所有文件信息 ids
+    const [unSaveIds, setUnSaveIds] = useState([])      // 当前未被保存的所有文件信息 ids
+
+    // 计算已打开的所有文件信息
+    const openFiles = openIds.map(openId => {
+        return files.find(file => file.id === openId)
+    })
+
+    // 计算正在编辑的文件信息
+    const activeFile = files.find(file => file.id === activeId)
+
     return (
         <div className="App container-fluid px-0">
             <div className="row no-gutters">
@@ -56,7 +75,7 @@ function App() {
                         title="我的文档"
                         onSearch={(value) => { console.log(value) }}
                     ></SearchFile>
-                    <FileList files={initFiles}
+                    <FileList files={files}
                         editFile={(id) => console.log(id)}
                         deleteFile={(id) => console.log("删除：", id)}
                         saveFile={(id, value) => console.log(id, value)}
@@ -69,24 +88,34 @@ function App() {
 
                 </LeftDiv>
                 <RightDiv>
-                    <TabList
-                        files={initFiles}
-                        unSaveItems={['1']}
-                        activeItem={'1'}
-                        clickItem={(id) => { console.log(id) }}
-                        closeItem={(id) => { console.log(id) }}
-                    ></TabList>
-                    <SimpleMDE
-                        id="your-custom-id"
-                        onChange={(value) => { console.log(value) }}
-                        value={initFiles[0].body}
-                        options={{
-                            autofocus: true,
-                            spellChecker: false,
-                            minHeight: "445px"
-                        }}
-                    >
-                    </SimpleMDE>
+                    {
+                        activeFile &&
+                        <>
+                            <TabList
+                                files={openFiles}
+                                activeItem={activeId}
+                                unSaveItems={unSaveIds}
+                                clickItem={(id) => { console.log(id) }}
+                                closeItem={(id) => { console.log(id) }}
+                            ></TabList>
+                            <SimpleMDE
+                                id="your-custom-id"
+                                onChange={(value) => { console.log(value) }}
+                                value={activeFile.body}
+                                options={{
+                                    autofocus: true,
+                                    spellChecker: false,
+                                    minHeight: "445px"
+                                }}
+                            >
+                            </SimpleMDE>
+                        </>
+                    }
+                    {
+                        !activeFile &&
+                        <div className="init-page">新建或导入文件</div>
+                    }
+                    
                 </RightDiv>
             </div>
         </div>
