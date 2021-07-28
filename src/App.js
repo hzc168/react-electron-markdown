@@ -7,6 +7,8 @@ import FileList from './components/FileList'
 import ButtonItem from './components/ButtomItem'
 import { faPlus, faFileImport } from '@fortawesome/free-solid-svg-icons'
 import TabList from './components/TabList'
+import SimpleMDE from 'react-simplemde-editor'
+import "easymde/dist/easymde.min.css"
 
 // 自定义左侧容器
 let LeftDiv = styled.div.attrs({
@@ -68,12 +70,23 @@ function App() {
                 </LeftDiv>
                 <RightDiv>
                     <TabList
-                     files={initFiles}
-                     unSaveItems={['1']}
-                     activeItem={'1'}
-                     clickItem={(id) => {console.log(id)}}
-                     closeItem={(id) => {console.log(id)}}
-                     ></TabList>
+                        files={initFiles}
+                        unSaveItems={['1']}
+                        activeItem={'1'}
+                        clickItem={(id) => { console.log(id) }}
+                        closeItem={(id) => { console.log(id) }}
+                    ></TabList>
+                    <SimpleMDE
+                        id="your-custom-id"
+                        onChange={(value) => { console.log(value) }}
+                        value={initFiles[0].body}
+                        options={{
+                            autofocus: true,
+                            spellChecker: false,
+                            minHeight: "445px"
+                        }}
+                    >
+                    </SimpleMDE>
                 </RightDiv>
             </div>
         </div>
