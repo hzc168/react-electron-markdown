@@ -6,6 +6,7 @@ import initFiles from './utils/initFiles'
 import FileList from './components/FileList'
 import ButtonItem from './components/ButtomItem'
 import { faPlus, faFileImport } from '@fortawesome/free-solid-svg-icons'
+import TabList from './components/TabList'
 
 // 自定义左侧容器
 let LeftDiv = styled.div.attrs({
@@ -65,7 +66,15 @@ function App() {
                     </div>
 
                 </LeftDiv>
-                <RightDiv>右侧</RightDiv>
+                <RightDiv>
+                    <TabList
+                     files={initFiles}
+                     unSaveItems={['1']}
+                     activeItem={'1'}
+                     clickItem={(id) => {console.log(id)}}
+                     closeItem={(id) => {console.log(id)}}
+                     ></TabList>
+                </RightDiv>
             </div>
         </div>
     );
